@@ -15,13 +15,11 @@ import { MaterialIcon } from '../icons/material/material-icon'
 import { useKeyListener } from '../keyboard/key-listener'
 import { IconButton, TextButton } from '../material/button'
 import { CheckBox } from '../material/check-box'
-import { fastOutSlowInShort } from '../material/curves'
 import { FloatingActionButton } from '../material/floating-action-button'
 import { MenuList } from '../material/menu/menu'
 import { SelectableMenuItem } from '../material/menu/selectable-item'
 import { Popover, usePopoverController, useRefAnchorPosition } from '../material/popover'
 import { useImmerState } from '../react/state-hooks'
-import { SearchInput } from '../search/search-input'
 import { labelMedium } from '../styles/typography'
 import { ALL_MAP_THUMBNAIL_SIZES, MapThumbnailSize, thumbnailSizeToLabel } from './thumbnail-size'
 
@@ -51,16 +49,6 @@ const PositionedFloatingActionButton = styled(FloatingActionButton)`
   position: absolute;
   top: -28px;
   left: calc(50% - 28px);
-`
-
-const StyledSearchInput = styled(SearchInput)`
-  width: 200px;
-  ${fastOutSlowInShort};
-  transition-property: width;
-
-  &:focus-within {
-    width: 256px;
-  }
 `
 
 const FilterOverlayContents = styled.div`
@@ -107,14 +95,12 @@ export interface BrowserFooterProps {
   sortOption: number
   numPlayersFilter: Set<NumPlayers>
   tilesetFilter: Set<Tileset>
-  searchQuery: string
   onSizeChange: (size: MapThumbnailSize) => void
   onFilterApply: (
     numPlayersFilter: ReadonlyDeep<Set<NumPlayers>>,
     tilesetFilter: ReadonlyDeep<Set<Tileset>>,
   ) => void
   onSortChange: (sortType: MapSortType) => void
-  onSearchChange: (value: string) => void
   onBrowseLocalMaps?: () => void
 }
 
@@ -123,10 +109,8 @@ export function BrowserFooter({
   sortOption,
   numPlayersFilter,
   tilesetFilter,
-  searchQuery,
   onSizeChange,
   onFilterApply,
-  onSearchChange,
   onSortChange,
   onBrowseLocalMaps,
 }: BrowserFooterProps) {
@@ -195,8 +179,6 @@ export function BrowserFooter({
           onClick={openSortMenu}
         />
       </LeftActions>
-
-      <StyledSearchInput searchQuery={searchQuery} onSearchChange={onSearchChange} />
 
       <Popover
         open={sizeMenuOpen}

@@ -21,6 +21,7 @@ interface SearchInputProps {
   label?: string
   className?: string
   ref?: React.Ref<SearchInputHandle>
+  dense?: boolean
 }
 
 export function SearchInput({
@@ -29,6 +30,7 @@ export function SearchInput({
   label,
   className,
   ref,
+  dense = true,
 }: SearchInputProps) {
   const { t } = useTranslation()
   const [inputValue, setInputValue] = useState(searchQuery)
@@ -89,7 +91,7 @@ export function SearchInput({
       ref={inputRef}
       value={inputValue}
       label={label ?? t('common.actions.search', 'Search')}
-      dense={true}
+      dense={dense}
       allowErrors={false}
       onChange={onInputChange}
       onFocus={onInputFocus}

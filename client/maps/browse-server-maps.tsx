@@ -20,6 +20,7 @@ import { createViewStateStore } from '../navigation/view-state-store'
 import { useRefreshToken } from '../network/refresh-token'
 import { useUserLocalStorageValue } from '../react/state-hooks'
 import { useAppDispatch } from '../redux-hooks'
+import { SearchInput } from '../search/search-input'
 import { bodyLarge, BodyLarge, labelLarge, TitleLarge } from '../styles/typography'
 import { getFavorites as getFavoritedMaps, getMaps } from './action-creators'
 import { BrowserFooter as Footer } from './browser-footer'
@@ -114,6 +115,17 @@ const ScrollDivider = styled.div<{ $position: 'top' | 'bottom' }>`
   margin-top: ${props => (props.$position === 'top' ? '-1px' : '0')};
   margin-bottom: ${props => (props.$position === 'bottom' ? '-1px' : '0')};
   background-color: var(--theme-outline-variant);
+`
+
+const SearchArea = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 0 24px 24px;
+`
+
+const LargeMapSearchInput = styled(SearchInput)`
+  width: 100%;
+  max-width: 1024px;
 `
 
 enum MapTab {
@@ -476,6 +488,14 @@ export function BrowseServerMaps({
           <TitleLarge>{title}</TitleLarge>
         </TitleBar>
       ) : null}
+      <SearchArea>
+        <LargeMapSearchInput
+          searchQuery={searchQuery}
+          onSearchChange={query => debouncedSearchRef.current(query)}
+          label={t('maps.server.searchMaps', 'Search maps')}
+          dense={false}
+        />
+      </SearchArea>
       <TabArea>
         <Tabs
           activeTab={activeTab}
@@ -577,8 +597,6 @@ export function BrowseServerMaps({
             reset()
           }
         }}
-        searchQuery={searchQuery}
-        onSearchChange={query => debouncedSearchRef.current(query)}
       />
     </Container>
   )
